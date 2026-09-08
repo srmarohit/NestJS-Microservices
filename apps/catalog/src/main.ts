@@ -1,8 +1,26 @@
 import { NestFactory } from '@nestjs/core';
+import { Logger } from '@nestjs/common';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { CatalogModule } from './catalog.module.js';
 
 async function bootstrap() {
-  const app = await NestFactory.create(CatalogModule);
-  await app.listen(process.env.port ?? 3000);
+  process.title = "catalog"
+  const logger = new Logger('CatalogBootstrap')
+    const port = process.env.CATALOG_TCP_PORT || 4011 
+
+   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    CatalogModule,
+    {
+      transport: Transport.TCP,
+      options: {
+        host: '0.0.0.0',
+        port
+      }
+    },
+  );
+
+  app.enableShutdownHooks();
+  await app.listen();
+  logger.log(`Catalog is running on: ${port}`);
 }
 await bootstrap();
