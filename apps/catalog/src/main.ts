@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { CatalogModule } from './catalog.module.js';
+import { applyToMicroservicesLayer } from '../../../libs/rpc/src/rpc.setup.js';
 
 async function bootstrap() {
   process.title = "catalog"
@@ -27,6 +28,9 @@ async function bootstrap() {
       }
     }
   );
+
+  // Integration of global RPC Error Handler
+  applyToMicroservicesLayer(app);
 
     // TCP Connections
   //  const app = await NestFactory.createMicroservice<MicroserviceOptions>(

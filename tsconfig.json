@@ -20,7 +20,15 @@
     "types": [
       "vitest/globals",
       "node"
-    ]
+    ],
+    "paths": {
+      "lib/rpc": [
+        "./libs/rpc/src"
+      ],
+      "lib/rpc/*": [
+        "./libs/rpc/src/*"
+      ]
+    }
   },
   "files": [],
   "references": [
